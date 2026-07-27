@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/chest",
+  "textures": {
+    "particle": "minecraft:block/acacia_planks"
+  }
+}

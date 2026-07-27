@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "timber_chests:oak_chest",
+    "timber_chests:spruce_chest",
+    "timber_chests:birch_chest",
+    "timber_chests:jungle_chest",
+    "timber_chests:acacia_chest",
+    "timber_chests:dark_oak_chest",
+    "timber_chests:mangrove_chest",
+    "timber_chests:cherry_chest",
+    "timber_chests:bamboo_chest",
+    "timber_chests:crimson_chest",
+    "timber_chests:warped_chest"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "timber_chests:block/warped_chest"
+    }
+  }
+}
