@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "timber_chests:item/oak_chest",
+    "model": {
+      "type": "minecraft:chest",
+      "texture": "timber_chests:oak"
+    }
+  }
+}
