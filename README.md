@@ -84,5 +84,8 @@ Para iniciar un cliente de desarrollo:
 
 Las 33 texturas PNG de runtime se mantienen sin cambios en esta versión.
 El generador original está en `tools/generate_chest_textures.py`; la imagen
-conceptual de `docs/` no se incluye en el juego. La licencia del proyecto está
-en [LICENSE](LICENSE).
+conceptual de `docs/` no se incluye en el juego.
+
+## Licencia
+
+La licencia del proyecto está en [LICENSE](LICENSE).
