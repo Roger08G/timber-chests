@@ -28,7 +28,7 @@ comparadores, y el comportamiento de los cofres dobles.
 | Minecraft: Java Edition | 26.2 |
 | NeoForge | 26.2.0.88 o posterior de la rama 26.2 |
 | Java para jugar/compilar | Java 25 / JDK 25 |
-| Mod | 0.2.0 |
+| Mod | 1.0.0 |
 
 Este es un mod para Minecraft Java Edition con NeoForge. **Una instalación sin
 loader de mods no puede cargar el archivo JAR.** No sirve para Bedrock Edition.
@@ -40,7 +40,7 @@ En multijugador, el cliente y el servidor necesitan el mod.
 
 1. Instala Minecraft Java Edition 26.2 y NeoForge para 26.2 desde
    [NeoForged](https://neoforged.net/).
-2. Copia `TimberChests-0.2.0-mc26.2-NeoForge.jar` a la carpeta `mods` de la
+2. Copia `TimberChests-1.0.0-mc26.2-NeoForge.jar` a la carpeta `mods` de la
    instalación de NeoForge. El archivo se entrega también en el Desktop.
 3. Inicia el perfil de NeoForge desde el lanzador de Minecraft.
 
@@ -66,10 +66,10 @@ Usa JDK 25 y Python 3.11 o posterior. Ejecuta en PowerShell:
 ```powershell
 .\gradlew.bat build
 python -m pip install -r requirements-dev.txt
-python tools/validate_project.py --jar build/libs/timber_chests-0.2.0.jar
+python tools/validate_project.py --jar build/libs/timber_chests-1.0.0.jar
 ```
 
-El artefacto de compilación está en `build/libs/timber_chests-0.2.0.jar`.
+El artefacto de compilación está en `build/libs/timber_chests-1.0.0.jar`.
 La validación comprueba los JSON, las 33 texturas existentes y el contenido del JAR.
 La CI ejecuta estas comprobaciones y publica el JAR como artefacto de cada
 compilación. Dependabot revisa Gradle, GitHub Actions y Python semanalmente.

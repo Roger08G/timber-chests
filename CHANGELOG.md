@@ -1,6 +1,6 @@
 # Historial de cambios
 
-## 26.2 — Minecraft 26.2
+## 1.0.0 — Minecraft 26.2
 
 - Port a NeoForge 26.2 y Java 25.
 - Renderizado de cofres e ítems adaptado a las APIs de 26.2.

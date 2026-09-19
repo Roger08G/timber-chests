@@ -33,10 +33,10 @@ jobs:
       - name: Validate resources and JAR
         run: |
           python -m pip install -r requirements-dev.txt
-          python tools/validate_project.py --jar build/libs/timber_chests-0.2.0.jar
+          python tools/validate_project.py --jar build/libs/timber_chests-1.0.0.jar
 
       - name: Upload mod JAR
         uses: actions/upload-artifact@v4
         with:
-          name: timber-chests-0.2.0-mc26.2
-          path: build/libs/timber_chests-0.2.0.jar
+          name: timber-chests-1.0.0-mc26.2
+          path: build/libs/timber_chests-1.0.0.jar
