@@ -25,9 +25,10 @@ public final class ModBlocks {
     static {
         for (WoodVariant variant : WoodVariant.values()) {
             String name = variant.id() + "_chest";
-            DeferredBlock<WoodChestBlock> block = BLOCKS.register(
+            DeferredBlock<WoodChestBlock> block = BLOCKS.registerBlock(
                 name,
-                () -> new WoodChestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHEST))
+                WoodChestBlock::new,
+                () -> BlockBehaviour.Properties.ofFullCopy(Blocks.CHEST)
             );
             CHESTS.put(variant, block);
             CHEST_ITEMS.add(ITEMS.registerSimpleBlockItem(name, block));
@@ -44,6 +45,10 @@ public final class ModBlocks {
 
     public static List<DeferredBlock<WoodChestBlock>> chests() {
         return List.copyOf(CHESTS.values());
+    }
+
+    public static DeferredBlock<WoodChestBlock> chest(WoodVariant variant) {
+        return CHESTS.get(variant);
     }
 
     public static List<DeferredItem<BlockItem>> chestItems() {
