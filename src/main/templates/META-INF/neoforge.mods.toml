@@ -1,14 +1,11 @@
-modLoader="javafml"
-loaderVersion="${loader_version_range}"
 license="${mod_license}"
 
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
-authors="Timber Chests contributors"
 description='''
-Vanilla-style chest variants for every Minecraft wood type.
+Cofres para cada tipo de madera con el comportamiento de los cofres de Minecraft.
 '''
 
 [[dependencies.${mod_id}]]

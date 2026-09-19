@@ -1,91 +1,88 @@
-# Timber Chests
+<h1 align="center">🪵 Timber Chests</h1>
 
-Vanilla-style chest variants for every Minecraft wood type.
+<p align="center">
+  🌟 Cofres con aspecto vanilla para cada tipo de madera de Minecraft 🌟
+</p>
 
-![Timber Chests concept](docs/timber-chests-concept.png)
+<p align="center">
+  <a href="https://github.com/Roger08G/minecraft-timber-chests/actions/workflows/build.yml"><img src="https://github.com/Roger08G/minecraft-timber-chests/actions/workflows/build.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/Roger08G/minecraft-timber-chests/releases"><img src="https://img.shields.io/github/v/release/Roger08G/minecraft-timber-chests?display_name=tag&sort=semver" alt="Versión"></a>
+  <a href="https://github.com/Roger08G/minecraft-timber-chests/stargazers"><img src="https://img.shields.io/github/stars/Roger08G/minecraft-timber-chests?style=flat" alt="Estrellas"></a>
+  <a href="https://github.com/Roger08G/minecraft-timber-chests/network/members"><img src="https://img.shields.io/github/forks/Roger08G/minecraft-timber-chests?style=flat" alt="Forks"></a>
+  <img src="https://img.shields.io/badge/Minecraft-26.2-green" alt="Minecraft 26.2">
+  <img src="https://img.shields.io/badge/NeoForge-26.2-orange" alt="NeoForge 26.2">
+  <img src="https://img.shields.io/badge/Java-25-red?logo=openjdk" alt="Java 25">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Roger08G/minecraft-timber-chests" alt="Licencia"></a>
+</p>
 
-## Compatibility
+`Timber Chests` añade cofres inspirados en cada madera de Minecraft, conservando
+el inventario, la animación, los sonidos, la interacción con tolvas y
+comparadores, y el comportamiento de los cofres dobles.
 
-- Minecraft Java Edition **1.21**
-- NeoForge **21.0.167 or newer in the 21.0 line**
-- Java **21**
-- Mod version **0.1.0**
+![Banner Timber Chests](images/banner.png)
 
-This build intentionally targets Minecraft 1.21 exactly. It is not marked as
-compatible with 1.21.1 or later game versions.
+## Compatibilidad
 
-## Included chests
+| Componente | Versión |
+| --- | --- |
+| Minecraft: Java Edition | 26.2 |
+| NeoForge | 26.2.0.88 o posterior de la rama 26.2 |
+| Java para jugar/compilar | Java 25 / JDK 25 |
+| Mod | 0.2.0 |
 
-Oak, spruce, birch, jungle, acacia, dark oak, mangrove, cherry, bamboo,
-crimson, and warped.
+Este es un mod para Minecraft Java Edition con NeoForge. **Una instalación sin
+loader de mods no puede cargar el archivo JAR.** No sirve para Bedrock Edition.
+En multijugador, el cliente y el servidor necesitan el mod.
 
-Eight matching vanilla planks craft the corresponding chest. Mixed planks
-still craft the normal vanilla chest. A homogeneous set of planks added by
-another mod also falls back to the vanilla chest unless that mod adds its own
-specific recipe.
+![Craft](images/1.png)
 
-## Vanilla behavior preserved
+## Instalación en Windows
 
-Every variant delegates its behavior to Minecraft's `ChestBlock` and
-`ChestBlockEntity` implementations:
+1. Instala Minecraft Java Edition 26.2 y NeoForge para 26.2 desde
+   [NeoForged](https://neoforged.net/).
+2. Copia `TimberChests-0.2.0-mc26.2-NeoForge.jar` a la carpeta `mods` de la
+   instalación de NeoForge. El archivo se entrega también en el Desktop.
+3. Inicia el perfil de NeoForge desde el lanzador de Minecraft.
 
-- 27 inventory slots (54 for a valid double chest)
-- vanilla opening animation and sounds
-- hopper and comparator support
-- cat and solid-block obstruction checks
-- vanilla hardness, blast resistance, and tool behavior
-- custom-name preservation when broken
-- piglin anger behavior
-- waterlogging
+El JAR no es un instalador y no se ejecuta con doble clic.
 
-Only two adjacent chests backed by the same registered block can join. Two
-different wood variants remain independent.
+## Contenido
 
-## Build
+Roble, abeto, abedul, jungla, acacia, roble oscuro, mangle, cerezo, bambú,
+carmesí y distorsionado. Ocho tablones iguales crean el cofre correspondiente.
+Los tablones mezclados siguen creando el cofre normal. Los tablones de otros
+mods también crean el cofre normal, salvo que otro mod aporte una receta propia.
 
-On Windows PowerShell, point `JAVA_HOME` to a JDK 21 installation and run:
+El contenido usa las clases nativas de cofres de Minecraft: 27 espacios por
+cofre sencillo y 54 por cofre doble, bloqueo por gato o bloque sólido,
+waterlogging, enfado de piglins y conservación del nombre personalizado.
+
+![image](images/2.png)
+
+## Compilación y validación
+
+Usa JDK 25 y Python 3.11 o posterior. Ejecuta en PowerShell:
 
 ```powershell
 .\gradlew.bat build
+python -m pip install -r requirements-dev.txt
+python tools/validate_project.py --jar build/libs/timber_chests-0.2.0.jar
 ```
 
-The distributable JAR is written to `build/libs/timber_chests-0.1.0.jar`.
+El artefacto de compilación está en `build/libs/timber_chests-0.2.0.jar`.
+La validación comprueba los JSON, las 33 texturas existentes y el contenido del JAR.
+La CI ejecuta estas comprobaciones y publica el JAR como artefacto de cada
+compilación. Dependabot revisa Gradle, GitHub Actions y Python semanalmente.
 
-Validate every JSON file, all 33 UV textures, and the packaged JAR with:
-
-```powershell
-python tools/validate_project.py --jar build/libs/timber_chests-0.1.0.jar
-```
-
-For a development client:
+Para iniciar un cliente de desarrollo:
 
 ```powershell
 .\gradlew.bat runClient
 ```
 
-## Texture workflow
+## Texturas
 
-The runtime textures are deterministic 64×64 chest UV maps generated by:
-
-```powershell
-python tools/generate_chest_textures.py --minecraft-resources-jar <path-to-1.21-client-resources.jar>
-```
-
-The generator preserves the vanilla latch pixels and adds a distinct palette
-and wood treatment for every variant. The generated concept sheet is visual
-direction only; it is not loaded at runtime.
-
-## Project layout
-
-```text
-src/main/java/dev/timberchests/
-├── TimberChests.java
-├── block/
-├── client/
-├── recipe/
-└── registry/
-
-src/main/resources/
-├── assets/timber_chests/
-└── data/
-```
+Las 33 texturas PNG de runtime se mantienen sin cambios en esta versión.
+El generador original está en `tools/generate_chest_textures.py`; la imagen
+conceptual de `docs/` no se incluye en el juego. La licencia del proyecto está
+en [LICENSE](LICENSE).
