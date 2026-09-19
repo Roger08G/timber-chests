@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import tomllib
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -49,6 +50,7 @@ def validate_variant(variant: str) -> None:
         assets / f"blockstates/{variant}_chest.json",
         assets / f"models/block/{variant}_chest.json",
         assets / f"models/item/{variant}_chest.json",
+        assets / f"items/{variant}_chest.json",
         data / f"recipe/{variant}_chest.json",
         data / f"loot_table/blocks/{variant}_chest.json",
         data / f"advancement/recipes/decorations/{variant}_chest.json",
@@ -58,8 +60,15 @@ def validate_variant(variant: str) -> None:
 
     recipe = json.loads((data / f"recipe/{variant}_chest.json").read_text(encoding="utf-8"))
     require(recipe["pattern"] == ["###", "# #", "###"], f"Bad recipe pattern for {variant}")
-    require(recipe["key"]["#"]["item"] == f"minecraft:{variant}_planks", f"Bad plank input for {variant}")
+    require(recipe["key"]["#"] == f"minecraft:{variant}_planks", f"Bad plank input for {variant}")
     require(recipe["result"]["id"] == f"timber_chests:{variant}_chest", f"Bad recipe result for {variant}")
+
+    item = json.loads((assets / f"items/{variant}_chest.json").read_text(encoding="utf-8"))
+    model = item["model"]
+    require(model["type"] == "minecraft:special", f"Bad item renderer for {variant}")
+    require(model["base"] == f"timber_chests:item/{variant}_chest", f"Bad item base model for {variant}")
+    require(model["model"]["type"] == "minecraft:chest", f"Bad special model for {variant}")
+    require(model["model"]["texture"] == f"timber_chests:{variant}", f"Bad item texture for {variant}")
 
     for suffix in ("", "_left", "_right"):
         texture = assets / f"textures/entity/chest/{variant}{suffix}.png"
@@ -81,23 +90,32 @@ def validate_jar(path: Path) -> int:
     with ZipFile(path) as archive:
         names = set(archive.namelist())
         required = {
+            "META-INF/LICENSE",
             "META-INF/neoforge.mods.toml",
             "data/minecraft/recipe/chest.json",
             "dev/timberchests/TimberChests.class",
         }
-        for variant in VARIANTS:
-            required.update(
-                {
-                    f"assets/timber_chests/textures/entity/chest/{variant}.png",
-                    f"assets/timber_chests/textures/entity/chest/{variant}_left.png",
-                    f"assets/timber_chests/textures/entity/chest/{variant}_right.png",
-                    f"data/timber_chests/recipe/{variant}_chest.json",
-                    f"data/timber_chests/loot_table/blocks/{variant}_chest.json",
-                    f"data/timber_chests/advancement/recipes/decorations/{variant}_chest.json",
-                }
-            )
+        for resource in RESOURCES.rglob("*"):
+            if resource.is_file():
+                member = resource.relative_to(RESOURCES).as_posix()
+                required.add(member)
+                if member in names:
+                    require(archive.read(member) == resource.read_bytes(), f"JAR resource differs: {member}")
         missing = sorted(required - names)
         require(not missing, "Release JAR is missing: " + ", ".join(missing))
+
+        properties = dict(
+            line.split("=", 1)
+            for line in (ROOT / "gradle.properties").read_text(encoding="utf-8").splitlines()
+            if line and not line.startswith("#") and "=" in line
+        )
+        metadata = tomllib.loads(archive.read("META-INF/neoforge.mods.toml").decode("utf-8"))
+        require(metadata["mods"][0]["version"] == properties["mod_version"], "Wrong mod version in JAR")
+        require(metadata["license"] == properties["mod_license"], "Wrong license in JAR")
+        require(archive.read("META-INF/LICENSE") == (ROOT / "LICENSE").read_bytes(), "JAR license differs")
+        dependencies = metadata["dependencies"][properties["mod_id"]]
+        minecraft = next(dependency for dependency in dependencies if dependency["modId"] == "minecraft")
+        require(minecraft["versionRange"] == properties["minecraft_version_range"], "Wrong Minecraft version in JAR")
         return len(names)
 
 
