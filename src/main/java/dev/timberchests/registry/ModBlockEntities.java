@@ -15,7 +15,7 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TimberChestBlockEntity>> TIMBER_CHEST =
         BLOCK_ENTITY_TYPES.register(
             "timber_chest",
-            () -> BlockEntityType.Builder.of(TimberChestBlockEntity::new, ModBlocks.chestBlocksArray()).build(null)
+            () -> new BlockEntityType<>(TimberChestBlockEntity::new, ModBlocks.chestBlocksArray())
         );
 
     private ModBlockEntities() {
