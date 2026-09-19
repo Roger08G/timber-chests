@@ -1,6 +1,7 @@
 package dev.timberchests.registry;
 
-import java.util.Arrays;
+import java.util.IdentityHashMap;
+import java.util.Map;
 import java.util.Optional;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +20,8 @@ public enum WoodVariant {
     CRIMSON("crimson", Blocks.CRIMSON_PLANKS),
     WARPED("warped", Blocks.WARPED_PLANKS);
 
+    private static final Map<Item, WoodVariant> BY_PLANKS = createPlankLookup();
+
     private final String id;
     private final Block planks;
 
@@ -36,6 +39,14 @@ public enum WoodVariant {
     }
 
     public static Optional<WoodVariant> fromPlanks(Item item) {
-        return Arrays.stream(values()).filter(variant -> variant.planksItem() == item).findFirst();
+        return Optional.ofNullable(BY_PLANKS.get(item));
+    }
+
+    private static Map<Item, WoodVariant> createPlankLookup() {
+        Map<Item, WoodVariant> result = new IdentityHashMap<>();
+        for (WoodVariant variant : values()) {
+            result.put(variant.planksItem(), variant);
+        }
+        return result;
     }
 }
