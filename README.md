@@ -1,4 +1,4 @@
-<h1 align="center">🪵 Timber Chests</h1>
+<h1 align="center">🪵 Minecraft Chests</h1>
 
 <p align="center">
   🌟 Cofres con aspecto vanilla para cada tipo de madera de Minecraft 🌟
